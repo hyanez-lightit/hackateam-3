@@ -8,5 +8,5 @@ RUN yarn install
 
 COPY . .
 
-CMD yarn start
+CMD yarn start-server
 

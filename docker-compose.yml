@@ -8,10 +8,8 @@ services:
     ports:
       - '3001:3001'
     volumes:
-      - .:/app
-      - /app/node_modules
-    networks:
-      - hackat3am
+      - ./backend:/api
+      - /api/node_modules
   frontend:
     build:
       context: ./frontend
@@ -21,12 +19,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/app
+      - ./frontend:/app
       - /app/node_modules
     depends_on:
       - backend
-    networks:
-      - hackat3am
-networks:
-  hackat3am:
-    name: hackat3am
