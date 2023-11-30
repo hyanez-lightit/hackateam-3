@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: #1c2859;
+  background-color: #e7ebee;
+  font-family: 'Satoshi-Variable';
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+p {
+  word-wrap: break-word;
+}
+
+/* Removes autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-animation: autofill 0s forwards;
+  animation: autofill 0s forwards;
+  font-size: inherit;
+}
+
+@keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+  }
+}
+
+@-webkit-keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+  }
+}
+
+.iti__selected-flag {
+  background-color: white !important;
+  border-radius: 0.375rem
+}
