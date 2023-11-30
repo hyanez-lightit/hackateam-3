@@ -11,6 +11,7 @@ export const App = () => (
     <ToastContainer position="bottom-right" pauseOnFocusLoss={false} />
     <BrowserRouter>
       <div className="mt-24 w-full" />
+    
       <Routes>
         {routes.map((route) => (
           <Route path={route.path} element={route.element} key={route.path} />
