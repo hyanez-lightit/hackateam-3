@@ -28,8 +28,8 @@ const animation = `
 
 export const App = () => {
   const [msgAvailable, setMsgAvailable] = useState(false);
-  const [visibleInsights, toggleInsights] = useState(false);
   const [diagnosis, setDiagnosis] = useState<Diagnosis[]>();
+  const [patientsMatched, setPatientsMatched] = useState<number>(0);
 
   const queryParameters = new URLSearchParams(window.location.search);
   const patientId = queryParameters.get('patientId');
@@ -38,7 +38,8 @@ export const App = () => {
     try {
       if (!patientId) return;
       const response = await getDiagnosis(patientId);
-      setDiagnosis(response.data.diagnosesMatched);
+      setDiagnosis(response.data.diagnosesPredicted);
+      setPatientsMatched(response.data.patientsBasedPrediction.length);
     } catch (error) {
       console.log(error);
       setDiagnosis([]);
@@ -46,10 +47,11 @@ export const App = () => {
   };
 
   useEffect(() => {
-    console.log(patientId);
     void fetchDiagnosis();
   }, [patientId]);
-
+  
+  if (!diagnosis) return ;
+  
   return (
     <div className="flex h-screen flex-col">
       <style>{animation}</style>
@@ -74,7 +76,7 @@ export const App = () => {
           >
             <img src="/public/logo.svg" alt="" />
           </button>
-          {msgAvailable && <Message />}
+          {msgAvailable && <Message diagnosis={diagnosis} patientsMatched={patientsMatched} />}
         </div>
       </div>
       <footer className="flex w-full flex-col items-center justify-between bg-blue-800 py-2 text-white">

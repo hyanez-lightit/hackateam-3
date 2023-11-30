@@ -1,9 +1,10 @@
-import { type Diagnose } from './../../../frontend/src/types/diagnose';
 import { ServerError, UnprocessableEntityError } from '../exceptions';
 import { type Patient } from '../mocks/patients';
 import { OpenAiService, getPrompt } from '../services/openai';
 import { logger } from '../utils';
 import { PatientsLogic } from './patients.logic';
+import { type Diagnosis } from '../types';
+
 export const DiagnosisLogic = {
   async diagnose(patientId: string) {
     try {
@@ -33,12 +34,10 @@ export const DiagnosisLogic = {
       const { content } = assistantChoice.message;
 
       const diagnosis = JSON.parse(content) as {
-        diagnosesPredicted: Diagnose[];
-        diagnosesMatched: Diagnose[];
+        diagnosesPredicted: Diagnosis[];
+        diagnosesMatched: Diagnosis[];
         patientsBasedPrediction: Patient[];
       };
-
-      
 
       return {
         patientId,
