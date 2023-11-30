@@ -1,14 +1,14 @@
 import { NotFoundError } from '../exceptions';
-import { users } from '../mocks/users';
+import { patients } from '../mocks/patients';
 
 export const PatientsLogic = {
   async getAll() {
-    return users;
+    return patients;
   },
   async get(id: string) {
-    const user = users.find((user) => user.id === id);
+    const patient = patients.find((patient) => patient.id === id);
 
-    if (!user) throw new NotFoundError(`User with id ${id} not found`);
-    return user;
+    if (!patient) throw new NotFoundError(`Patient with id ${id} not found`);
+    return patient;
   },
 };

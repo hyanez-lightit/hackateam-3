@@ -1,0 +1,7 @@
+I'm going to give you a json with patients and a patientId.
+I want you you to predict if patient with id {id} is missing any diagnose. For that matter, check within the other patients to check if any have similar diagnoses. For example, if patient A has diagnoses 1 and 2, and patient B has diagnoses 1, 2 and 3, it's likely that A has 3. I want you to tell me that. Note that this is merely speculative, and the data is not real. So make a prediction. The response should be a json formatted like this:
+{
+  message: "Patient {patientFirstName} {patientLastName} is likely to have {diagnoseName}";
+  diagnosesMatched: *The diagnoses which the prediction is based on"
+}
+Return only the json code, nothing else. No text, nothing.

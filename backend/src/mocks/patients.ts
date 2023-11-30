@@ -1,4 +1,6 @@
-export const users = [
+export type Patient = (typeof patients)[0];
+
+export const patients = [
   {
     id: '1',
     first_name: 'John',

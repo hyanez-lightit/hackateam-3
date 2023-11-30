@@ -4,9 +4,8 @@ import {
   type Response,
   Router,
 } from 'express';
-import { StatusCodes } from '../types';
+import { StatusCodes, patientIdParamSchema } from '../types';
 import { PatientsLogic } from '../logic/patients.logic';
-import { userIdParamSchema } from '../types/params/userId.type';
 
 const PatientsController = Router();
 
@@ -29,11 +28,11 @@ PatientsController.get(
 
 // Api/patients/1
 PatientsController.get(
-  '/:id',
+  '/:patientId',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = userIdParamSchema.parse(req.params);
-      const data = await PatientsLogic.get(id);
+      const { patientId } = patientIdParamSchema.parse(req.params);
+      const data = await PatientsLogic.get(patientId);
       res.status(StatusCodes.OK).json({
         success: 'Patient fetched',
         data,
