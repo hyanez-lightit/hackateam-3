@@ -13,15 +13,33 @@ const animation = `
 
   @keyframes pulse-animation {
     0% {
-      box-shadow: 0 0 0 0 rgba(12, 39, 166, 0.7);
+      box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
     }
     
     70% {
-      box-shadow: 0 0 0 10px rgba(12, 39, 166, 0);
+      box-shadow: 0 0 0 10px rgba(6, 182, 212, 0);
     }
     
     100% {
-      box-shadow: 0 0 0 0 rgba(12, 39, 166, 0);
+      box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+    }
+  }
+
+  .pulse-brain {
+    animation: pulse-brain-animation 2s infinite;
+  }
+
+  @keyframes pulse-brain-animation {
+    0% {
+      transform: scale(1);
+    }
+    
+    70% {
+      transform: scale(1.15);
+    }
+    
+    100% {
+      transform: scale(1);
     }
   }
 `;
@@ -30,6 +48,7 @@ export const App = () => {
   const [msgAvailable, setMsgAvailable] = useState(false);
   const [diagnosis, setDiagnosis] = useState<Diagnosis[]>();
   const [patientsMatched, setPatientsMatched] = useState<number>(0);
+  const [matchedDiagnosis, setMatchedDiagnosis] = useState<Diagnosis[]>([]);
 
   const queryParameters = new URLSearchParams(window.location.search);
   const patientId = queryParameters.get('patientId');
@@ -40,6 +59,7 @@ export const App = () => {
       const response = await getDiagnosis(patientId);
       setDiagnosis(response.data.diagnosesPredicted);
       setPatientsMatched(response.data.patientsBasedPrediction.length);
+      setMatchedDiagnosis(response.data.diagnosesMatched);
     } catch (error) {
       console.log(error);
       setDiagnosis([]);
@@ -49,8 +69,12 @@ export const App = () => {
   useEffect(() => {
     void fetchDiagnosis();
   }, [patientId]);
-  
-  if (!diagnosis) return ;
+
+  useEffect(() => {
+    if (diagnosis && diagnosis.length > 0) {
+      setMsgAvailable(true);
+    }
+  }, [diagnosis])
   
   return (
     <div className="flex h-screen flex-col">
@@ -61,29 +85,30 @@ export const App = () => {
           <span className="text-2xl font-semibold text-blue-800">No PatientId provided</span>
         </div>
       )}
-      {/* <div className="w-full h-full relative" style={{background: "url('https://d33v4339jhl8k0.cloudfront.net/docs/assets/5bbe96a22c7d3a04dd5b8761/images/5ea88836042863474d19c944/file-pR2XT8TZj1.png')"}}> */}
-      <div className="relative h-full w-full">
+      <div className="w-full h-full relative bg-no-repeat bg-contain" style={{backgroundImage: "url('https://d33v4339jhl8k0.cloudfront.net/docs/assets/5bbe96a22c7d3a04dd5b8761/images/5ea88836042863474d19c944/file-pR2XT8TZj1.png')"}}>
+        <div className='absolute top-0 bottom-0 left-0 right-0' style={{background: 'linear-gradient(130deg, rgba(229,232,237,0) 93%, rgba(120,120,120,1) 100%)'}} />
+      {/* <div className="relative h-full w-full"> */}
         <div
-          className={`fixed bottom-12 right-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-800 p-3.5 text-white transition-all hover:bg-blue-700 ${
+          className={`fixed bottom-4 right-4 flex h-20 w-20 items-center justify-center rounded-full p-3.5 text-white transition-all ${
             msgAvailable ? 'pulse' : 'hover:scale-105'
-          }`}
+          }
+          ${!diagnosis || diagnosis.length === 0 ? 'bg-blue-900' : 'bg-cyan-500 hover:bg-cyan-600'}`}
         >
           <button
             className="h-full w-full"
             onClick={() => {
-              setMsgAvailable(!msgAvailable);
+              setMsgAvailable(diagnosis?.length > 0 ? !msgAvailable : false);
             }}
           >
-            <img src="/public/logo.svg" alt="" />
+            {diagnosis?.length === 0 ? (
+              <div className='text-xs'>AFK</div>
+            ) : (
+              <img className={`${(!diagnosis || diagnosis?.length === 0) ? 'pulse-brain opacity-75' : ''}`} src="/public/logo.svg" alt="" />
+            )}
           </button>
-          {msgAvailable && <Message diagnosis={diagnosis} patientsMatched={patientsMatched} />}
+          {msgAvailable && diagnosis && <Message onClose={() => {setMsgAvailable(false)}} diagnosis={diagnosis} patientsMatched={patientsMatched} matchedDiagnosis={matchedDiagnosis} />}
         </div>
       </div>
-      <footer className="flex w-full flex-col items-center justify-between bg-blue-800 py-2 text-white">
-        <span className="text-xs">
-          Copyright © 2023 <strong className="text-lg">hackat3am</strong> Uruguay/Argentina
-        </span>
-      </footer>
     </div>
   );
 };

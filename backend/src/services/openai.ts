@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { type Patient } from '../mocks/patients';
 import fs from 'fs';
 import path from 'path';
@@ -27,6 +26,7 @@ export const OpenAiService = {
     const chatCompletion = await openai.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'gpt-3.5-turbo-1106',
+      temperature: 0,
       response_format: {
         type: 'json_object',
       },

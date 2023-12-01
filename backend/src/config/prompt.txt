@@ -1,21 +1,29 @@
-I'm going to give you a json with users and an id. 
-I want you you to predict if user with id {id} is missing any diagnose. 
+I'm going to give you a json with patients and an id. 
+I want you you to predict if patient with id {id} is missing any diagnose. 
+
 For that matter, check within the other patients to check if any have similar diagnoses. 
-For example, if patient A has diagnoses 1 and 2, and patient B has diagnoses 1, 2 and 3, it's likely that A has 3. 
-If patient already has that diagnosis, respond with an empty array.
-I want you to tell me that. Note that this is merely speculative, and the data is not real. So make a prediction.
+Few examples:
+If patient A has diagnoses 1 and 2, and patient B has diagnoses 1, 2 and 3, it's likely that A has 3. 
+Note that this is merely speculative, and the data is not real. So make a prediction.
 
-The response should be a json formatted like this:
+If patient already has that diagnosis, respond with an empty array = [].
+If patient is diagnosed with a new one the response should be a json formatted like this:
 {
-  diagnosesPredicted: diagnose [] *The diagnose predicted*
-  diagnosesMatched: diagnose [] *The diagnoses which the prediction is based on*
-  patientsBasedPrediction: *The patients array that prediction is based on*
+  diagnosesPredicted: Diagnose[]  // The diagnose predicted
+  diagnosesMatched: Diagnose[] // The diagnoses which the prediction is based on
+  patientsBasedPrediction: Patient[] // The patients array that prediction is based on
 }
 
-diagnose {
-  id: *The diagnose id*
-  code: *The diagnose code (generally first letters and numbers)*
-  name: *The diagnose name*
+Diagnose {
+  id: string // The diagnose id
+  code: string // The diagnose code (generally first letters and numbers)
+  name: string // The diagnose name
 }
 
-Return only the json code, nothing else. No text, nothing.
+For Patient return only {
+  id: string
+  name: string
+  diagnoses: Diagnose[]
+}
+
+Please return only the json code, nothing else. No text, nothing, because it will be used for formatting.
