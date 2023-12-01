@@ -27,20 +27,20 @@ export const Message = ({ diagnosis, patientsMatched, matchedDiagnosis, onClose 
           <span className='text-[#4B5563] font-lg whitespace-nowrap pr-12'>Your patient may develop <span className='font-semibold'>{diagnosisLabel}</span></span>
           {visibleInsights && (
             <>
-            <span className='text-[#35388C] text-sm font-semibold uppercase mt-4 tracking-wide'>Why</span>
+            <span className='text-[#35388C] text-sm font-semibold uppercase mt-6 tracking-wide'>What I found</span>
             <span className='text-[#4B5563] font-lg'>I found {patientsMatched} patients that share <span className='font-semibold'>{matchedDiagnosis.map((d) => d.name).join(', ')}</span> and they also developed <span className='font-semibold'>{diagnosisLabel}</span></span>
             </>
           )}
         </div>
         <div className="flex items-center w-full pr-4 justify-end gap-2">
           <a href={`https://www.webmd.com/search?query=${diagnosisLabel}`} target='_blank' rel='noreferrer'>
-            <button className="flex items-center gap-2 text-sm font-medium text-[#35388C] hover:bg-gray-100 hover:text-blue-800 rounded-full py-2 px-4" onClick={() => {toggleInsights(!visibleInsights)}}>
+            <button className="flex items-center gap-2 text-sm font-medium text-[#35388C] hover:bg-gray-100 hover:text-blue-800 rounded-full py-2 px-4">
               Check WebMD
             </button>
           </a>
           <button className="flex items-center gap-2 text-sm font-medium text-[#35388C] hover:bg-gray-100 hover:text-blue-800 rounded-full py-2 px-4" onClick={() => {toggleInsights(!visibleInsights)}}>
             {visibleInsights ? "Hide insights" : "View insights"}
-            <ChevronUpIcon className={`w-4 h-4 transition-all ${visibleInsights ? 'rotate-0' : 'rotate-180'}`} />
+            <ChevronUpIcon className={`w-4 h-4 transition-all ${visibleInsights ? 'rotate-180' : 'rotate-0'}`} />
           </button>
         </div>
       </div>
